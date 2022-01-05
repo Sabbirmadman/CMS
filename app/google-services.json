@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "688480092104",
+    "project_id": "course-management-system-cms",
+    "storage_bucket": "course-management-system-cms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688480092104:android:9813a0a7353c746fe04afd",
+        "android_client_info": {
+          "package_name": "com.cse489.coursemanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688480092104-4ssaiobm31pc2fjel156a2tjlmc4q8bg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cse489.coursemanagement",
+            "certificate_hash": "d2f15cf6298827bd0b1dbe32971ae4a2f3ab6a07"
+          }
+        },
+        {
+          "client_id": "688480092104-voiok16ojobntsm2m3jmho5mak0g7mf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4owwZ8hMq8uIpWuTilFTs4hUATKyBt8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688480092104-voiok16ojobntsm2m3jmho5mak0g7mf2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
