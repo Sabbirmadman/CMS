@@ -3,25 +3,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartingActivity"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:background="#673AB7"
->
-    <TextView
-        android:id="@+id/showUserData"
+    tools:context=".StartingActivity"
+    >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User Data"></TextView>
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@color/header_background">
 
-    <Button
-        android:id="@+id/logoutBtn"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/showName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Data"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/white"></TextView>
+
+                <TextView
+                    android:id="@+id/showType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="User Data"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/showEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Data"
+                android:textColor="@color/white"></TextView>
+
+            <TextView
+                android:id="@+id/showPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Data"
+                android:textColor="@color/white"></TextView>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:text="Logout" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LogOut"
-        app:backgroundTint="#FFFFFF"
-        android:textColor="@color/black"
-        android:layout_marginTop="30dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/black"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/showCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Courses"
 
+            android:textSize="30dp"
+
+            android:textColor="@color/white"/>
+
+     <ListView
+         android:id="@+id/courseListView"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"></ListView>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1">
+
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 
 
