@@ -110,7 +110,11 @@
 
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/showData"
+        />
 
 
     <RelativeLayout
@@ -125,6 +129,14 @@
             android:indeterminate="true" />
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/createCourse"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:text="Create Course" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

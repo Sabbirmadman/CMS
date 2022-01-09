@@ -5,18 +5,18 @@ public class User {
     private String id;
     private String idNumber;
     private String name;
-    private String phone;
+    private String phonenumber;
     private String type;
 
     public User() {
     }
 
-    public User(String email, String id, String idNumber, String name, String phone, String type) {
+    public User(String email, String id, String idNumber, String name, String phonenumber, String type) {
         this.email = email;
         this.id = id;
         this.idNumber = idNumber;
         this.name = name;
-        this.phone = phone;
+        this.phonenumber = phonenumber;
         this.type = type;
     }
 
@@ -52,12 +52,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhonenumber() {
+        return phonenumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getType() {

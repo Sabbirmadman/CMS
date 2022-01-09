@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private TextView backButton;
-
     private TextInputEditText loginEmail, loginPassword;
     private TextView forgotPassword;
     private Button loginButton;
