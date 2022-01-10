@@ -7,7 +7,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +40,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView nameTV;
     private TextView phoneTV;
     private TextView typeTV;
+
+    private ListView myCourseListView;
+
+
+    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Course> courses = new ArrayList<>();
     String p;
 
     private ProgressDialog loader;
+
+    //current User Id
+    private String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     @Override
@@ -47,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logout = findViewById(R.id.logoutBtn);
-//        ShowData = findViewById(R.id.showUserData);
+
+
+        //list view shows my courses
+        myCourseListView = findViewById(R.id.courseListView);
 
 
         emailTV = findViewById(R.id.showEmail);
@@ -56,31 +71,17 @@ public class MainActivity extends AppCompatActivity {
         typeTV = findViewById(R.id.showType);
         createCourses = findViewById(R.id.createCourse);
 
-        ArrayList<User> users = new ArrayList<>();
-        ArrayList<Course> courses = new ArrayList<>();
 
+
+
+//user gmail
         String uid = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
         System.out.println("uid=" + uid);
 
-
+//userId
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(
                 FirebaseAuth.getInstance().getCurrentUser().getUid()
         );
-
-
-
-        //removing create btn for user student
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -104,26 +105,28 @@ public class MainActivity extends AppCompatActivity {
                     phoneTV.setText(Phone);
                     typeTV.setText(type);
 
-                    if(type.equals("Student")) {
-                        createCourses.setVisibility(View.GONE);
-                    }
 
+                    //removing create btn for user student
+                    if (type.equals("Student")) {
+                        createCourses.setVisibility(View.GONE);
+                    }else {
+                        //teacher related stuff invisible
+                    }
 
 
                 }
 
             }
 
-//Have to show all the courses on the adopter 
+            //Have to show all the courses on the adopter
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 emailTV.setText("ERR");
             }
         });
 
-
+//get all the users
         userRef1 = FirebaseDatabase.getInstance().getReference().child("users");
-
         userRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,49 +153,51 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        courseRef = FirebaseDatabase.getInstance().getReference().child("course");
-        courseRef.addValueEventListener(new ValueEventListener() {
+        myCourseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    courses.add(postSnapshot.getValue(Course.class));
-
-                }
-                String values = "";
-                for (Course u : courses) {
-                    values = values + " " + u.getCourse_id();
-                }
-                TextView temp = findViewById(R.id.showData);
-                temp.setText(values);
-
-
-                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Course selectedCourse = courses.get(i);
+                Intent intent = new Intent(MainActivity.this, CourseActivity.class);
+                intent.putExtra("user_id",currentUserId);
+                intent.putExtra("id", selectedCourse.getCourse_id());
+                intent.putExtra("name", selectedCourse.getCourse_Name());
+                intent.putExtra("credit", selectedCourse.getCourse_Credit());
+                intent.putExtra("created_by", selectedCourse.getCreated_by());
+                intent.putExtra("res_id", selectedCourse.getResource_id());
+                startActivity(intent);
             }
         });
+
+
+//        //dummy course data
+//        Course c1 = new Course("cse303","Intro to programming","4","sabbir","");
+//        Course c2 = new Course("cse302","Intro to programming","3","sabbir","");
+//        Course c3 = new Course("cse301","Intro to programming","3.5","sabbir","");
+//        Course c4 = new Course("cse300","Intro to programming","3","sabbir","");
+//        Course c5 = new Course("cse304","Intro to programming","4","sabbir","");
+//        ArrayList<Course> dummyCourse = new ArrayList<>();
+//        dummyCourse.add(c1);
+//        dummyCourse.add(c2);
+//        dummyCourse.add(c3);
+//        dummyCourse.add(c4);
+//        dummyCourse.add(c5);
+//        dummyCourse.add(c1);
+//        dummyCourse.add(c2);
+//        dummyCourse.add(c3);
+//        dummyCourse.add(c4);
+//        dummyCourse.add(c5);
+
+//        CourseListAdapter CourseListAdapter = new CourseListAdapter(this,R.layout.course_adopter_view_layout,dummyCourse);
+//        myCourseListView.setAdapter(CourseListAdapter);
 
 
         createCourses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,Create_course.class);
+                Intent i = new Intent(MainActivity.this, Create_course.class);
                 startActivity(i);
             }
         });
-
-
-
-
-
-
-
-
-
-
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -206,5 +211,41 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+courses.clear();
+
+//getting courses
+        courseRef = FirebaseDatabase.getInstance().getReference().child("course");
+        courseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Course c1 = postSnapshot.getValue(Course.class);
+                    if(c1.getCreated_by().toString().equals(currentUserId)){
+                        System.out.println(c1.getCreated_by());
+                        courses.add(postSnapshot.getValue(Course.class));
+                    }
+
+
+                }
+
+
+                CourseListAdapter CourseListAdapter = new CourseListAdapter(MainActivity.this, R.layout.course_adopter_view_layout, courses);
+                myCourseListView.setAdapter(CourseListAdapter);
+
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
