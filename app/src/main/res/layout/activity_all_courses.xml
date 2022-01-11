@@ -5,6 +5,53 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".StartingActivity">
-    
+    tools:context=".StartingActivity"
+    android:padding="5dp"
+    android:backgroundTint="@color/fb">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="#000"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Course Id"
+            android:inputType="textEmailAddress"
+            android:drawablePadding="10dp"
+            android:textColor="#000"
+            android:background="@color/white"
+            android:textSize="18sp"
+            android:textColorHint="#000" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/searchBtn"
+        android:text="🔍 Search"
+        android:textAllCaps="false"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"/>
+
+
+    <ListView
+        android:id="@+id/courseListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+
+
+
+
+
+
 </androidx.appcompat.widget.LinearLayoutCompat>

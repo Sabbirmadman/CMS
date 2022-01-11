@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cse489.coursemanagement.Models.CoPo;
@@ -24,6 +25,8 @@ public class CourseActivity extends AppCompatActivity {
     private TextView courseNameTv;
     private TextView courseInsTv;
     private TextView descTv;
+
+    private Button courseEdit;
 
 
     private ArrayList<User> users = new ArrayList<>();
@@ -49,11 +52,28 @@ public class CourseActivity extends AppCompatActivity {
         courseIdTV = findViewById(R.id.courseIdTv);
         courseNameTv = findViewById(R.id.CourseNameTv);
         descTv = findViewById(R.id.descTv);
+        courseEdit = findViewById(R.id.CourseEditTv);
 
 
         courseIdTV.setText(i.getStringExtra("id"));
         courseNameTv.setText(i.getStringExtra("name") + " (" + i.getStringExtra("credit") + ")");
         descTv.setText(i.getStringExtra("desc")+i.getStringExtra("students"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //get course ins info
         userRef1 = FirebaseDatabase.getInstance().getReference().child("users").child(i.getStringExtra("created_by"));
@@ -62,6 +82,9 @@ public class CourseActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 courseIns=dataSnapshot.getValue(User.class);
+                if(!courseIns.getId().equals(i.getStringExtra("user_id")) ){
+                    courseEdit.setVisibility(View.GONE);
+                }
 
                 TextView insNameTv=findViewById(R.id.InsNameTv);
                 TextView insEmailTv = findViewById(R.id.InsEmailTv);
@@ -79,6 +102,29 @@ public class CourseActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+    //CourseEditBtn
+        courseEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(CourseActivity.this,CourseUpdateActivity.class);
+                startActivity(I);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
 
 
 

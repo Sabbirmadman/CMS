@@ -26,7 +26,6 @@ import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
-    private TextView ShowData;
     private DatabaseReference userRef;
     private DatabaseReference userRef1;
     private DatabaseReference courseRef;
@@ -121,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
                     }else {
                         //teacher related stuff invisible
                     }
-
-
                 }
 
             }
@@ -148,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     values = values + " " + u.getPhonenumber();
                 }
 
-//                ShowData.setText(values);
+
                 findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             }
 

@@ -328,6 +328,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/border"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -358,7 +359,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/border"
-        android:text="Edit" />
+        android:text="⚒️ "
+        android:textSize="20dp"/>
 
 
 
