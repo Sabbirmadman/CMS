@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cse489.coursemanagement.Models.Course;
+import com.cse489.coursemanagement.Models.StudentCourseList;
 import com.cse489.coursemanagement.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference userRef;
     private DatabaseReference userRef1;
     private DatabaseReference courseRef;
+    private DatabaseReference studentCourseRef;
+
+
+
     private Button logout;
     private Button createCourses;
 
@@ -44,8 +51,16 @@ public class MainActivity extends AppCompatActivity {
     private ListView myCourseListView;
 
 
+
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Course> courses = new ArrayList<>();
+    private HashMap <String, String> stdCourse = new HashMap<String, String>();
+    String type;
+
+
+
+
+
     String p;
 
     private ProgressDialog loader;
@@ -96,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String name = snapshot.child("name").getValue().toString();
                     String Email = snapshot.child("email").getValue().toString();
-                    String type = snapshot.child("type").getValue().toString();
+                    type = snapshot.child("type").getValue().toString();
                     String Phone = snapshot.child("phonenumber").getValue().toString();
 
 
@@ -150,6 +165,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//get students in the courses
+//        studentCourseRef = FirebaseDatabase.getInstance().getReference().child("studentCourses");
+//        studentCourseRef.addValueEventListener(new ValueEventListener() {
+//            String[] studentId;
+//            List objects = new ArrayList<Object>();
+//            String courseId;
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    objects.add(postSnapshot.getValue());
+//
+//                }
+//
+//                try {
+//                    for (int i =0;i<objects.size();i++){
+//                        List objects1 = new ArrayList<Object>();
+//                        objects1.add(objects.get(i));
+//                        for (int j =0;j<objects1.size();j++) {
+//                            System.out.println("lol"+objects1.get(i));
+//                        }
+//                    }
+//
+//                }
+//                catch (Exception e){
+//
+//                }
+//
+//
+//
+//////                    studentId = postSnapshot.getValue().toString();
+////                    courseId = postSnapshot.getKey().toString();
+////                    for(String p : postSnapshot.getValue())
+////                    stdCourse.put(studentId,courseId);
+////
+////
+////                }
+//
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull  DatabaseError error) {
+//
+//            }
+//        });
+
+
+
+
+
 
 
 
@@ -163,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("name", selectedCourse.getCourse_Name());
                 intent.putExtra("credit", selectedCourse.getCourse_Credit());
                 intent.putExtra("created_by", selectedCourse.getCreated_by());
+                intent.putExtra("desc", selectedCourse.getDesc());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
                 startActivity(intent);
             }
@@ -227,11 +295,12 @@ courses.clear();
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Course c1 = postSnapshot.getValue(Course.class);
-                    if(c1.getCreated_by().toString().equals(currentUserId)){
-                        System.out.println(c1.getCreated_by());
+                    if(type.equals("Teacher")&&c1.getCreated_by().toString().equals(currentUserId)){
                         courses.add(postSnapshot.getValue(Course.class));
-                    }
+                    }else if (type.equals("Student")){
+                        courses.add(postSnapshot.getValue(Course.class));
 
+                    }
 
                 }
 

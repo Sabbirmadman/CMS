@@ -36,9 +36,10 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
         String createdBy = getItem(position).getCreated_by();
         String name = getItem(position).getCourse_Name();
         String res_id = getItem(position).getResource_id();
+        String desc = getItem(position).getDesc();
 
 
-        Course course = new Course(id, name, credit, createdBy, res_id);
+        Course course = new Course(id, name, credit, createdBy,desc, res_id);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cse489.coursemanagement.Models.Course;
+import com.cse489.coursemanagement.Models.Routine;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 
 public class Create_course extends AppCompatActivity {
     private DatabaseReference courseRef;
+    private DatabaseReference routineRef;
     private TextView show;
     private Button createCourseBtn, cancelBtn;
     private TextInputEditText course_Id, name, credit, resource_id;
@@ -47,7 +49,8 @@ public class Create_course extends AppCompatActivity {
         String currentUserId = mAuth.getCurrentUser().getUid();
 
 
-        courseRef = FirebaseDatabase.getInstance().getReference().child("course");
+
+
 
         createCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,7 @@ public class Create_course extends AppCompatActivity {
                     courseInfo.put("course_Name", name1);
                     courseInfo.put("course_Credit", credit1);
                     courseInfo.put("created_by", currentUserId);
+                    courseInfo.put("desc","");
                     courseInfo.put("resource_id", res_id);
 
 
@@ -85,7 +89,26 @@ public class Create_course extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull  Task task) {
                             if (task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), "Data stored successfully!", Toast.LENGTH_SHORT).show();
+
+                                routineRef =FirebaseDatabase.getInstance().getReference().child("routine").child(course_id1);
+                                HashMap routineInfo = new HashMap();
+                                routineInfo.put("MW","");
+                                routineInfo.put("SR","");
+                                routineInfo.put("ST","");
+                                routineInfo.put("TR","");
+                                routineInfo.put("course_id",course_id1);
+
+                                routineRef.updateChildren(routineInfo).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(), "Data stored successfully!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+
                             }
                             else{
                                 Toast.makeText(getApplicationContext(), "Data was not stored successfully!", Toast.LENGTH_SHORT).show();
@@ -94,7 +117,6 @@ public class Create_course extends AppCompatActivity {
                         }
                     });
 
-//                    show.setText(name1);
 
                 }
 

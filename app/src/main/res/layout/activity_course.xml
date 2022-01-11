@@ -5,10 +5,162 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".StartingActivity">
 
+
     <TextView
+        android:id="@+id/courseIdTv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewThings"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Course ID"
+        android:textSize="40dp" />
+
+
+    <TextView
+        android:id="@+id/CourseNameTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="Course ID"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/descTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:text="Desc"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:layout_margin="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:text="Instructor"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    />
+                <TextView
+                    android:id="@+id/InsNameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ins Name"
+                    android:textSize="15dp"
+                    />
+                <TextView
+                    android:id="@+id/InsEmailTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ins Email"
+                    android:textSize="15dp"
+                    />
+                <TextView
+                    android:id="@+id/InsPhoneTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ins Phone"
+                    android:textSize="15dp"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/coPoTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:text="CoPo"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class Routine"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@color/black"
+                />
+            <TextView
+                android:id="@+id/routineMWTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MW"
+               />
+            <TextView
+                android:id="@+id/routineSRTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SR"
+                />
+            <TextView
+                android:id="@+id/routineSTTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ST"
+                />
+            <TextView
+                android:id="@+id/routineTRTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TR"
+                />
+        </LinearLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/ExamsDateTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:text="Exam date"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/border"
+    android:text="Edit"
+    android:id="@+id/CourseEditTv"/>
+
+
 </androidx.appcompat.widget.LinearLayoutCompat>
