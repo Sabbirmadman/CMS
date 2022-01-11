@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cse489.coursemanagement.Models.CoPo;
 import com.cse489.coursemanagement.Models.Routine;
 import com.cse489.coursemanagement.Models.User;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private DatabaseReference userRef1;
     private DatabaseReference routineRef;
+    private DatabaseReference copoRef;
 
     private User courseIns;
     private Routine routine;
@@ -51,7 +53,7 @@ public class CourseActivity extends AppCompatActivity {
 
         courseIdTV.setText(i.getStringExtra("id"));
         courseNameTv.setText(i.getStringExtra("name") + " (" + i.getStringExtra("credit") + ")");
-        descTv.setText(i.getStringExtra("desc"));
+        descTv.setText(i.getStringExtra("desc")+i.getStringExtra("students"));
 
 //get course ins info
         userRef1 = FirebaseDatabase.getInstance().getReference().child("users").child(i.getStringExtra("created_by"));
@@ -104,10 +106,61 @@ public class CourseActivity extends AppCompatActivity {
 
             }
         });
+        //getting CoPo
+        copoRef = FirebaseDatabase.getInstance().getReference().child("CoPo").child(i.getStringExtra("id"));
+
+        copoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                CoPo copo = snapshot.getValue(CoPo.class);
+//                TextView copotv = findViewById(R.id.coPoTv);
+//                copotv.setText(copo.getCo1());
+
+                TextView cotv1 = findViewById(R.id.copo1);
+                TextView cotv2 = findViewById(R.id.copo2);
+                TextView cotv3 = findViewById(R.id.copo3);
+                TextView cotv4 = findViewById(R.id.copo4);
+                TextView cotv5 = findViewById(R.id.copo5);
+                TextView cotv6 = findViewById(R.id.copo6);
+                TextView potv1 = findViewById(R.id.copo7);
+                TextView potv2 = findViewById(R.id.copo8);
+                TextView potv3 = findViewById(R.id.copo9);
+                TextView potv4 = findViewById(R.id.copo10);
+                TextView potv5 = findViewById(R.id.copo11);
+                TextView potv6 = findViewById(R.id.copo12);
+
+                //put co po on a grid view
+                cotv1.setText("Co1 : "+copo.getCo1());
+                cotv2.setText("Co2 : "+copo.getCo2());
+                cotv3.setText("Co3 : "+copo.getCo3());
+                cotv4.setText("Co4 : "+copo.getCo4());
+                cotv5.setText("Co5 : "+copo.getCo5());
+                cotv6.setText("Co6 : "+copo.getCo6());
+                potv1.setText("Po1 : "+copo.getPo1());
+                potv2.setText("Po2 : "+copo.getPo2());
+                potv3.setText("Po3 : "+copo.getPo3());
+                potv4.setText("Po4 : "+copo.getPo4());
+                potv5.setText("Po5 : "+copo.getPo5());
+                potv6.setText("Po6 : "+copo.getPo6());
 
 
 
 
+
+
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull  DatabaseError error) {
+
+            }
+        });
 
 
 

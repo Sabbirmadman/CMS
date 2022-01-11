@@ -8,14 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cse489.coursemanagement.Models.Course;
-import com.cse489.coursemanagement.Models.StudentCourseList;
 import com.cse489.coursemanagement.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -165,53 +159,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//get students in the courses
-//        studentCourseRef = FirebaseDatabase.getInstance().getReference().child("studentCourses");
-//        studentCourseRef.addValueEventListener(new ValueEventListener() {
-//            String[] studentId;
-//            List objects = new ArrayList<Object>();
-//            String courseId;
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                    objects.add(postSnapshot.getValue());
-//
-//                }
-//
-//                try {
-//                    for (int i =0;i<objects.size();i++){
-//                        List objects1 = new ArrayList<Object>();
-//                        objects1.add(objects.get(i));
-//                        for (int j =0;j<objects1.size();j++) {
-//                            System.out.println("lol"+objects1.get(i));
-//                        }
-//                    }
-//
-//                }
-//                catch (Exception e){
-//
-//                }
-//
-//
-//
-//////                    studentId = postSnapshot.getValue().toString();
-////                    courseId = postSnapshot.getKey().toString();
-////                    for(String p : postSnapshot.getValue())
-////                    stdCourse.put(studentId,courseId);
-////
-////
-////                }
-//
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull  DatabaseError error) {
-//
-//            }
-//        });
 
 
 
@@ -232,31 +179,23 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("created_by", selectedCourse.getCreated_by());
                 intent.putExtra("desc", selectedCourse.getDesc());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
+                intent.putExtra("students",selectedCourse.getStudents());
                 startActivity(intent);
             }
         });
 
 
-//        //dummy course data
-//        Course c1 = new Course("cse303","Intro to programming","4","sabbir","");
-//        Course c2 = new Course("cse302","Intro to programming","3","sabbir","");
-//        Course c3 = new Course("cse301","Intro to programming","3.5","sabbir","");
-//        Course c4 = new Course("cse300","Intro to programming","3","sabbir","");
-//        Course c5 = new Course("cse304","Intro to programming","4","sabbir","");
-//        ArrayList<Course> dummyCourse = new ArrayList<>();
-//        dummyCourse.add(c1);
-//        dummyCourse.add(c2);
-//        dummyCourse.add(c3);
-//        dummyCourse.add(c4);
-//        dummyCourse.add(c5);
-//        dummyCourse.add(c1);
-//        dummyCourse.add(c2);
-//        dummyCourse.add(c3);
-//        dummyCourse.add(c4);
-//        dummyCourse.add(c5);
 
-//        CourseListAdapter CourseListAdapter = new CourseListAdapter(this,R.layout.course_adopter_view_layout,dummyCourse);
-//        myCourseListView.setAdapter(CourseListAdapter);
+
+        Button allCourse = findViewById(R.id.allCourse);
+
+        allCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this,AllCoursesActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         createCourses.setOnClickListener(new View.OnClickListener() {
@@ -286,19 +225,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-courses.clear();
+
 
 //getting courses
         courseRef = FirebaseDatabase.getInstance().getReference().child("course");
         courseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                courses.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Course c1 = postSnapshot.getValue(Course.class);
                     if(type.equals("Teacher")&&c1.getCreated_by().toString().equals(currentUserId)){
                         courses.add(postSnapshot.getValue(Course.class));
+
+
                     }else if (type.equals("Student")){
-                        courses.add(postSnapshot.getValue(Course.class));
+                        String[] courseStudents =  c1.getStudents().split(",");
+                        for(String i : courseStudents){
+                            if(i.equals(currentUserId)){
+                                courses.add(postSnapshot.getValue(Course.class));
+                            }
+
+                        }
+
 
                     }
 

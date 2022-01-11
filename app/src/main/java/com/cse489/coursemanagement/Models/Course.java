@@ -9,18 +9,24 @@ public class Course {
     private String created_by;
     private String resource_id;
     private String desc;
+    private String students;
     public Course() {
     }
 
 
 
-    public Course(String course_id, String course_Name, String course_Credit, String created_by, String desc, String resource_id) {
+    public Course(String course_id, String course_Name, String course_Credit, String created_by, String desc, String resource_id,String students) {
         this.course_id = course_id;
         this.course_Name = course_Name;
         this.course_Credit = course_Credit;
         this.created_by = created_by;
         this.resource_id = resource_id;
         this.desc = desc;
+        this.students=students;
+    }
+
+    public String getStudents() {
+        return students;
     }
 
     public void setDesc(String desc) {
@@ -30,6 +36,9 @@ public class Course {
         return desc;
     }
 
+    public void setStudents(String students) {
+        this.students = students;
+    }
 
     public void setCourse_id(String course_id) {
         this.course_id = course_id;

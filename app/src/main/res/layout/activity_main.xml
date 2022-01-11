@@ -121,26 +121,27 @@
             android:textSize="10dp"
             android:layout_margin="2dp"
             android:text="Create Course" />
+
         <Button
-            android:id="@+id/addCourse"
+            android:id="@+id/allCourse"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:textSize="10dp"
+            android:textSize="20dp"
             android:background="@color/white"
             android:layout_margin="2dp"
-            android:text="Add Courses" />
+            android:text="📚" />
         <Button
-            android:id="@+id/idk"
+            android:id="@+id/Notification"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:textSize="10dp"
+            android:textSize="20dp"
             android:layout_margin="2dp"
             android:background="@color/white"
-            android:text="idk" />
+            android:text="🔔" />
 
     </LinearLayout>
 

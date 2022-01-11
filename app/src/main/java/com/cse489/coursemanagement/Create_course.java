@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class Create_course extends AppCompatActivity {
     private DatabaseReference courseRef;
     private DatabaseReference routineRef;
+    private DatabaseReference CoPoRef;
     private TextView show;
     private Button createCourseBtn, cancelBtn;
     private TextInputEditText course_Id, name, credit, resource_id;
@@ -83,6 +84,7 @@ public class Create_course extends AppCompatActivity {
                     courseInfo.put("created_by", currentUserId);
                     courseInfo.put("desc","");
                     courseInfo.put("resource_id", res_id);
+                    courseInfo.put("students", "");
 
 
                     courseRef.updateChildren(courseInfo).addOnCompleteListener(new OnCompleteListener() {
@@ -99,6 +101,33 @@ public class Create_course extends AppCompatActivity {
                                 routineInfo.put("course_id",course_id1);
 
                                 routineRef.updateChildren(routineInfo).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(), "Data stored successfully!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+
+                                CoPoRef =FirebaseDatabase.getInstance().getReference().child("CoPo").child(course_id1);
+                                HashMap CoPoInfo = new HashMap();
+                                CoPoInfo.put("co1","");
+                                CoPoInfo.put("co2","");
+                                CoPoInfo.put("co3","");
+                                CoPoInfo.put("co4","");
+                                CoPoInfo.put("co5","");
+                                CoPoInfo.put("co6","");
+                                CoPoInfo.put("course_id",course_id1);
+                                CoPoInfo.put("po1","");
+                                CoPoInfo.put("po2","");
+                                CoPoInfo.put("po3","");
+                                CoPoInfo.put("po4","");
+                                CoPoInfo.put("po5","");
+                                CoPoInfo.put("po6","");
+
+                                CoPoRef.updateChildren(CoPoInfo).addOnCompleteListener(new OnCompleteListener() {
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if (task.isSuccessful()){
