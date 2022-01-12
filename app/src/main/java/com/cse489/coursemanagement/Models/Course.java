@@ -9,13 +9,14 @@ public class Course {
     private String created_by;
     private String resource_id;
     private String desc;
+    private String notice;
     private String students;
     public Course() {
     }
 
 
 
-    public Course(String course_id, String course_Name, String course_Credit, String created_by, String desc, String resource_id,String students) {
+    public Course(String course_id, String course_Name, String course_Credit, String created_by, String desc, String resource_id,String students,String notice) {
         this.course_id = course_id;
         this.course_Name = course_Name;
         this.course_Credit = course_Credit;
@@ -23,6 +24,15 @@ public class Course {
         this.resource_id = resource_id;
         this.desc = desc;
         this.students=students;
+        this.notice=notice;
+    }
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 
     public String getStudents() {

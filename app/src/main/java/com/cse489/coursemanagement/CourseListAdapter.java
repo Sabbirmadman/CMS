@@ -39,7 +39,7 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
         String desc = getItem(position).getDesc();
 
 
-        Course course = new Course(id, name, credit, createdBy,desc, res_id,"");
+        Course course = new Course(id, name, credit, createdBy,desc, res_id,"","");
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

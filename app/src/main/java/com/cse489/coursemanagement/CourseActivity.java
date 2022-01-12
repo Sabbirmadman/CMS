@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cse489.coursemanagement.Models.CoPo;
 import com.cse489.coursemanagement.Models.Routine;
 import com.cse489.coursemanagement.Models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,14 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CourseActivity extends AppCompatActivity {
     private TextView courseIdTV;
     private TextView courseNameTv;
     private TextView courseInsTv;
     private TextView descTv;
+    private TextView noticeBord;
 
-    private Button courseEdit;
+    private Button courseEdit,EnrollBtn;
 
 
     private ArrayList<User> users = new ArrayList<>();
@@ -34,9 +40,17 @@ public class CourseActivity extends AppCompatActivity {
     private DatabaseReference userRef1;
     private DatabaseReference routineRef;
     private DatabaseReference copoRef;
+    private DatabaseReference courseInfoRef;
 
     private User courseIns;
     private Routine routine;
+
+
+    private TextView tv1;
+    private TextView tv2;
+    private TextView tv3;
+    private TextView tv4;
+
 
 
 
@@ -48,16 +62,19 @@ public class CourseActivity extends AppCompatActivity {
         Intent i = getIntent();
         String id = i.getStringExtra("user_id") + i.getStringExtra("name");
 
+        courseInfoRef = FirebaseDatabase.getInstance().getReference().child("course").child(i.getStringExtra("id"));
 
         courseIdTV = findViewById(R.id.courseIdTv);
         courseNameTv = findViewById(R.id.CourseNameTv);
         descTv = findViewById(R.id.descTv);
         courseEdit = findViewById(R.id.CourseEditTv);
-
+        noticeBord=findViewById(R.id.noticeBordTv);
+        EnrollBtn=findViewById(R.id.EntollBtn);
 
         courseIdTV.setText(i.getStringExtra("id"));
         courseNameTv.setText(i.getStringExtra("name") + " (" + i.getStringExtra("credit") + ")");
-        descTv.setText(i.getStringExtra("desc")+i.getStringExtra("students"));
+        descTv.setText(i.getStringExtra("desc"));
+        noticeBord.setText(i.getStringExtra("notice"));
 
 
 
@@ -67,7 +84,30 @@ public class CourseActivity extends AppCompatActivity {
 
 
 
+//Enroll
+        EnrollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap courseInfo = new HashMap();
+                courseInfo.put("course_id", i.getStringExtra("id"));
+                courseInfo.put("course_Name", i.getStringExtra("name"));
+                courseInfo.put("course_Credit", i.getStringExtra("credit"));
+                courseInfo.put("created_by", i.getStringExtra("created_by"));
+                courseInfo.put("desc",i.getStringExtra("desc"));
+                courseInfo.put("notice", i.getStringExtra("notice"));
+                courseInfo.put("resource_id", i.getStringExtra("res_id"));
+                courseInfo.put("students", i.getStringExtra("students"));
 
+                courseInfoRef.updateChildren(courseInfo).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull  Task task) {
+                        Toast.makeText(getApplicationContext(), "Course added!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
 
 
 
@@ -85,6 +125,17 @@ public class CourseActivity extends AppCompatActivity {
                 if(!courseIns.getId().equals(i.getStringExtra("user_id")) ){
                     courseEdit.setVisibility(View.GONE);
                 }
+                if(!i.getStringExtra("type").equals("Student")){
+
+                    EnrollBtn.setVisibility(View.GONE);
+
+                }else{
+                    if(i.getStringExtra("students").contains(i.getStringExtra("user_id"))){
+                        EnrollBtn.setVisibility(View.GONE);
+                    }
+                }
+
+
 
                 TextView insNameTv=findViewById(R.id.InsNameTv);
                 TextView insEmailTv = findViewById(R.id.InsEmailTv);
@@ -111,17 +162,18 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent I = new Intent(CourseActivity.this,CourseUpdateActivity.class);
+                I.putExtra("current_user",i.getStringExtra("user_id"));
+                I.putExtra("id", i.getStringExtra("id"));
+                I.putExtra("name", i.getStringExtra("name"));
+                I.putExtra("credit",i.getStringExtra("credit"));
+                I.putExtra("created_by",i.getStringExtra("created_by"));
+                I.putExtra("desc",i.getStringExtra("desc"));
+                I.putExtra("notice",i.getStringExtra("notice"));
+                I.putExtra("res_id",i.getStringExtra("res_id"));
+                I.putExtra("students",i.getStringExtra("students"));
                 startActivity(I);
             }
         });
-
-
-
-
-
-
-
-
 
 
 
@@ -133,18 +185,25 @@ public class CourseActivity extends AppCompatActivity {
         routineRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
+
                 routine =snapshot.getValue(Routine.class);
-                TextView tv1 = findViewById(R.id.routineMWTv);
-                tv1.setText("MW : "+routine.getMW());
+                if(routine!=null){
 
-                TextView tv2 = findViewById(R.id.routineSRTv);
-                tv2.setText("SR : "+routine.getSR());
+                    tv1 = findViewById(R.id.routineMWTv);
+                    tv1.setText(routine.getMW());
 
-                TextView tv3 = findViewById(R.id.routineSTTv);
-                tv3.setText("ST : "+routine.getST());
+                    tv2 = findViewById(R.id.routineSRTv);
+                    tv2.setText(routine.getSR());
 
-                TextView tv4 = findViewById(R.id.routineTRTv);
-                tv4.setText("TR : "+routine.getTR());
+                    tv3 = findViewById(R.id.routineSTTv);
+                    tv3.setText(routine.getST());
+
+                    tv4 = findViewById(R.id.routineTRTv);
+                    tv4.setText(routine.getTR());
+
+                }
+
+
             }
 
             @Override
@@ -159,8 +218,7 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 CoPo copo = snapshot.getValue(CoPo.class);
-//                TextView copotv = findViewById(R.id.coPoTv);
-//                copotv.setText(copo.getCo1());
+
 
                 TextView cotv1 = findViewById(R.id.copo1);
                 TextView cotv2 = findViewById(R.id.copo2);
@@ -188,16 +246,6 @@ public class CourseActivity extends AppCompatActivity {
                 potv4.setText("Po4 : "+copo.getPo4());
                 potv5.setText("Po5 : "+copo.getPo5());
                 potv6.setText("Po6 : "+copo.getPo6());
-
-
-
-
-
-
-
-
-
-
 
 
             }

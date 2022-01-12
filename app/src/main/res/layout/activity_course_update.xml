@@ -1,9 +1,277 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CourseUpdateActivity">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context=".StartingActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📜 Edit Course"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:layout_marginBottom="10dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Admin Changes"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/fb"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CourseNameChangeField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Course name"
+                    android:inputType="textEmailAddress"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CourseCreditChangeField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Course credit change field"
+                    android:inputType="textEmailAddress"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Notice Board"
+                android:background="@drawable/border"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/fb"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/NoticeUpdateField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Notice"
+                    android:inputType="textEmailAddress"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Course Description"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/fb"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/DescUpdateField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Desc"
+                    android:inputType="textEmailAddress"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Class Routine"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/fb"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginTop="5sp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/MWinputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="MW : "
+                    android:inputType="text"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/SRinputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="SR : "
+                    android:inputType="text"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/STinputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ST : "
+                    android:inputType="text"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/TRinputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="TR : "
+                    android:inputType="text"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update Exam Schedule"
+                android:backgroundTint="@color/fb"
+                android:textColor="@color/white"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:layout_marginTop="5dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="#000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ExamDateField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Exam :  "
+                    android:inputType="text"
+                    android:drawablePadding="10dp"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textColorHint="#000" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/CourseEditTv"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/border"
+        android:text="💾 apply️ "
+        android:textSize="20dp"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

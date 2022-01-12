@@ -62,6 +62,12 @@ public class AllCoursesActivity extends AppCompatActivity {
                 System.out.println("Find"+searchInputValue);
 
 
+
+
+
+
+
+
                 DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference().child("course");
                 courseRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -69,7 +75,11 @@ public class AllCoursesActivity extends AppCompatActivity {
                         courses.clear();
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             Course c1 = postSnapshot.getValue(Course.class);
-                            if(c1.getCourse_id().contains(searchInputValue)){
+
+                            if(TextUtils.isEmpty(searchInputValue)){
+                                courses.add(postSnapshot.getValue(Course.class));
+                            }
+                            else if( c1.getCourse_id().contains(searchInputValue)){
                                 courses.add(postSnapshot.getValue(Course.class));
                             }
 
@@ -137,8 +147,9 @@ public class AllCoursesActivity extends AppCompatActivity {
 
         myCourseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Course selectedCourse = courses.get(i);
+            public void onItemClick(AdapterView<?> adapterView, View view, int iter, long l) {
+                Intent i = getIntent();
+                Course selectedCourse = courses.get(iter);
                 Intent intent = new Intent(AllCoursesActivity.this, CourseActivity.class);
                 intent.putExtra("user_id",currentUserId);
                 intent.putExtra("id", selectedCourse.getCourse_id());
@@ -148,6 +159,7 @@ public class AllCoursesActivity extends AppCompatActivity {
                 intent.putExtra("desc", selectedCourse.getDesc());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
                 intent.putExtra("students",selectedCourse.getStudents());
+                intent.putExtra("type", i.getStringExtra("type"));
                 startActivity(intent);
             }
         });

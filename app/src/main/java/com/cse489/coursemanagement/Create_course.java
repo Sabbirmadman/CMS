@@ -31,7 +31,6 @@ public class Create_course extends AppCompatActivity {
     private TextInputEditText course_Id, name, credit, resource_id;
     private FirebaseAuth mAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +82,7 @@ public class Create_course extends AppCompatActivity {
                     courseInfo.put("course_Credit", credit1);
                     courseInfo.put("created_by", currentUserId);
                     courseInfo.put("desc","");
+                    courseInfo.put("notice", "");
                     courseInfo.put("resource_id", res_id);
                     courseInfo.put("students", "");
 

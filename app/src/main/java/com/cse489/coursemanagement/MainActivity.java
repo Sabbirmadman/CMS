@@ -3,14 +3,20 @@ package com.cse489.coursemanagement;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cse489.coursemanagement.Models.Course;
 import com.cse489.coursemanagement.Models.User;
@@ -32,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference studentCourseRef;
 
 
-
     private Button logout;
     private Button createCourses;
 
@@ -44,16 +49,13 @@ public class MainActivity extends AppCompatActivity {
     private ListView myCourseListView;
 
 
-
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Course> courses = new ArrayList<>();
-    private HashMap <String, String> stdCourse = new HashMap<String, String>();
+    private HashMap<String, String> stdCourse = new HashMap<String, String>();
     String type;
 
 
-
-
-
+    Dialog dialogue;
     String p;
 
     private ProgressDialog loader;
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
 //user gmail
         String uid = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
         System.out.println("uid=" + uid);
@@ -90,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(
                 FirebaseAuth.getInstance().getCurrentUser().getUid()
         );
-
-
 
 
         userRef.addValueEventListener(new ValueEventListener() {
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     //removing create btn for user student
                     if (type.equals("Student")) {
                         createCourses.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         //teacher related stuff invisible
                     }
                 }
@@ -157,39 +160,91 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
         myCourseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Course selectedCourse = courses.get(i);
                 Intent intent = new Intent(MainActivity.this, CourseActivity.class);
-                intent.putExtra("user_id",currentUserId);
+                intent.putExtra("user_id", currentUserId);
                 intent.putExtra("id", selectedCourse.getCourse_id());
                 intent.putExtra("name", selectedCourse.getCourse_Name());
                 intent.putExtra("credit", selectedCourse.getCourse_Credit());
                 intent.putExtra("created_by", selectedCourse.getCreated_by());
                 intent.putExtra("desc", selectedCourse.getDesc());
+                intent.putExtra("notice", selectedCourse.getNotice());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
-                intent.putExtra("students",selectedCourse.getStudents());
+                intent.putExtra("students", selectedCourse.getStudents());
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
 
 
 
+        //Dialogue
+        dialogue = new Dialog(MainActivity.this);
+        dialogue.setContentView(R.layout.custom_dialogue);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            dialogue.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background));
+        }
+
+        dialogue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogue.setCancelable(false);
+
+
+        boolean delete = false;
+
+
+
+
+
+
+
+
+        myCourseListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Course selectedCourse = courses.get(position);
+                DatabaseReference courseRefDlt = FirebaseDatabase.getInstance().getReference().child("course").child(selectedCourse.getCourse_id());
+                DatabaseReference routineRefDlt = FirebaseDatabase.getInstance().getReference().child("routine").child(selectedCourse.getCourse_id());
+                if (type.equals("Teacher")){
+                    dialogue.show();
+                }
+                Button okey = dialogue.findViewById(R.id.btn_okay);
+                Button cancel = dialogue.findViewById(R.id.btn_cancel);
+
+                okey.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        courseRefDlt.removeValue();
+                        routineRefDlt.removeValue();
+                        Toast.makeText(MainActivity.this,"Successfully deleted",Toast.LENGTH_SHORT).show();
+                        dialogue.dismiss();
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(MainActivity.this,"cancel",Toast.LENGTH_SHORT).show();
+                        dialogue.dismiss();
+                    }
+                });
+
+
+
+                return true;
+            }
+        });
 
         Button allCourse = findViewById(R.id.allCourse);
 
         allCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,AllCoursesActivity.class);
+                Intent i = new Intent(MainActivity.this, AllCoursesActivity.class);
+                i.putExtra("type",type);
                 startActivity(i);
             }
         });
@@ -223,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
 
-
 //getting courses
         courseRef = FirebaseDatabase.getInstance().getReference().child("course");
         courseRef.addValueEventListener(new ValueEventListener() {
@@ -232,14 +286,14 @@ public class MainActivity extends AppCompatActivity {
                 courses.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Course c1 = postSnapshot.getValue(Course.class);
-                    if(type.equals("Teacher")&&c1.getCreated_by().toString().equals(currentUserId)){
+                    if (type.equals("Teacher") && c1.getCreated_by().toString().equals(currentUserId)) {
                         courses.add(postSnapshot.getValue(Course.class));
 
 
-                    }else if (type.equals("Student")){
-                        String[] courseStudents =  c1.getStudents().split(",");
-                        for(String i : courseStudents){
-                            if(i.equals(currentUserId)){
+                    } else if (type.equals("Student")) {
+                        String[] courseStudents = c1.getStudents().split(",");
+                        for (String i : courseStudents) {
+                            if (i.equals(currentUserId)) {
                                 courses.add(postSnapshot.getValue(Course.class));
                             }
 
