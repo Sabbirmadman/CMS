@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 public class CourseUpdateActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class CourseUpdateActivity extends AppCompatActivity {
     private DatabaseReference routineRef;
 
 
-    private Routine routine;
+    private Routine routine = new Routine();
 
 
     @Override
@@ -41,6 +42,7 @@ public class CourseUpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_update);
 
         Intent I = getIntent();
+        System.out.println("--------------"+I.getStringExtra("resource_id"));
 
 //firebase references
         courseInfoRef = FirebaseDatabase.getInstance().getReference().child("course").child(I.getStringExtra("id"));
@@ -74,11 +76,18 @@ public class CourseUpdateActivity extends AppCompatActivity {
         routineRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                routine =snapshot.getValue(Routine.class);
-                MWinputField.setText(routine.getMW());
-                SRinputField.setText(routine.getSR());
-                TRinputField.setText(routine.getST());
-                ExamDateField.setText(routine.getTR());
+                try{
+
+                    routine =snapshot.getValue(Routine.class);
+                    MWinputField.setText(routine.getMW());
+                    SRinputField.setText(routine.getSR());
+                    TRinputField.setText(routine.getST());
+                    ExamDateField.setText(routine.getTR());
+
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
             }
 
             @Override
@@ -104,9 +113,15 @@ public class CourseUpdateActivity extends AppCompatActivity {
                 courseInfo.put("course_Credit", ChangeCourseCredit.getText().toString());
                 courseInfo.put("created_by", I.getStringExtra("created_by"));
                 courseInfo.put("desc",I.getStringExtra("desc"));
-                courseInfo.put("notice", NoticeField.getText().toString());
                 courseInfo.put("resource_id", I.getStringExtra("resource_id"));
                 courseInfo.put("students", I.getStringExtra("students"));
+
+                if(NoticeField.getText().toString()!=null){
+                    courseInfo.put("notice", NoticeField.getText().toString());
+                }else {
+                    courseInfo.put("notice", I.getStringExtra("notice"));
+                }
+                System.out.println(I.getStringExtra("resource_id"));
 
 
                 courseInfoRef.updateChildren(courseInfo).addOnCompleteListener(new OnCompleteListener() {
@@ -134,10 +149,17 @@ public class CourseUpdateActivity extends AppCompatActivity {
 
                         Intent i = new Intent(CourseUpdateActivity.this,MainActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 });
             }
         });
+        System.out.println("On Create called of course update activity");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
-}
+
+    }

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference userRef;
     private DatabaseReference userRef1;
     private DatabaseReference courseRef;
-    private DatabaseReference studentCourseRef;
+    private DatabaseReference CoPoRef;
 
 
     private Button logout;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     //current User Id
     private String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
 
     @Override
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("created_by", selectedCourse.getCreated_by());
                 intent.putExtra("desc", selectedCourse.getDesc());
                 intent.putExtra("notice", selectedCourse.getNotice());
+                System.out.println(selectedCourse.getResource_id());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
                 intent.putExtra("students", selectedCourse.getStudents());
                 intent.putExtra("type", type);
@@ -208,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 Course selectedCourse = courses.get(position);
                 DatabaseReference courseRefDlt = FirebaseDatabase.getInstance().getReference().child("course").child(selectedCourse.getCourse_id());
                 DatabaseReference routineRefDlt = FirebaseDatabase.getInstance().getReference().child("routine").child(selectedCourse.getCourse_id());
+                CoPoRef =  FirebaseDatabase.getInstance().getReference().child("CoPo").child(selectedCourse.getCourse_id());
                 if (type.equals("Teacher")){
                     dialogue.show();
                 }
@@ -219,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         courseRefDlt.removeValue();
                         routineRefDlt.removeValue();
+                        CoPoRef.removeValue();
                         Toast.makeText(MainActivity.this,"Successfully deleted",Toast.LENGTH_SHORT).show();
                         dialogue.dismiss();
                     }

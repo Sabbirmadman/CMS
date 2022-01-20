@@ -157,6 +157,7 @@ public class AllCoursesActivity extends AppCompatActivity {
                 intent.putExtra("credit", selectedCourse.getCourse_Credit());
                 intent.putExtra("created_by", selectedCourse.getCreated_by());
                 intent.putExtra("desc", selectedCourse.getDesc());
+                System.out.println(selectedCourse.getResource_id());
                 intent.putExtra("res_id", selectedCourse.getResource_id());
                 intent.putExtra("students",selectedCourse.getStudents());
                 intent.putExtra("type", i.getStringExtra("type"));

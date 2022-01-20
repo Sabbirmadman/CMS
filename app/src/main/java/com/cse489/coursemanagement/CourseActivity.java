@@ -16,6 +16,7 @@ import com.cse489.coursemanagement.Models.Routine;
 import com.cse489.coursemanagement.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +33,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView descTv;
     private TextView noticeBord;
 
-    private Button courseEdit,EnrollBtn;
+    private Button courseEdit, EnrollBtn;
 
 
     private ArrayList<User> users = new ArrayList<>();
@@ -51,7 +52,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView tv3;
     private TextView tv4;
 
-
+    private String user,type;
 
 
     @Override
@@ -68,13 +69,16 @@ public class CourseActivity extends AppCompatActivity {
         courseNameTv = findViewById(R.id.CourseNameTv);
         descTv = findViewById(R.id.descTv);
         courseEdit = findViewById(R.id.CourseEditTv);
-        noticeBord=findViewById(R.id.noticeBordTv);
-        EnrollBtn=findViewById(R.id.EntollBtn);
+        noticeBord = findViewById(R.id.noticeBordTv);
+        EnrollBtn = findViewById(R.id.EntollBtn);
 
         courseIdTV.setText(i.getStringExtra("id"));
         courseNameTv.setText(i.getStringExtra("name") + " (" + i.getStringExtra("credit") + ")");
         descTv.setText(i.getStringExtra("desc"));
         noticeBord.setText(i.getStringExtra("notice"));
+
+
+
 
 
 
@@ -93,14 +97,15 @@ public class CourseActivity extends AppCompatActivity {
                 courseInfo.put("course_Name", i.getStringExtra("name"));
                 courseInfo.put("course_Credit", i.getStringExtra("credit"));
                 courseInfo.put("created_by", i.getStringExtra("created_by"));
-                courseInfo.put("desc",i.getStringExtra("desc"));
+                courseInfo.put("desc", i.getStringExtra("desc"));
                 courseInfo.put("notice", i.getStringExtra("notice"));
+
                 courseInfo.put("resource_id", i.getStringExtra("res_id"));
-                courseInfo.put("students", i.getStringExtra("students"));
+                courseInfo.put("students", i.getStringExtra("students")+","+i.getStringExtra("user_id"));
 
                 courseInfoRef.updateChildren(courseInfo).addOnCompleteListener(new OnCompleteListener() {
                     @Override
-                    public void onComplete(@NonNull  Task task) {
+                    public void onComplete(@NonNull Task task) {
                         Toast.makeText(getApplicationContext(), "Course added!", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -110,40 +115,42 @@ public class CourseActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
 //get course ins info
         userRef1 = FirebaseDatabase.getInstance().getReference().child("users").child(i.getStringExtra("created_by"));
         userRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
 
-                courseIns=dataSnapshot.getValue(User.class);
-                if(!courseIns.getId().equals(i.getStringExtra("user_id")) ){
-                    courseEdit.setVisibility(View.GONE);
-                }
-                if(!i.getStringExtra("type").equals("Student")){
-
-                    EnrollBtn.setVisibility(View.GONE);
-
-                }else{
-                    if(i.getStringExtra("students").contains(i.getStringExtra("user_id"))){
-                        EnrollBtn.setVisibility(View.GONE);
+                    courseIns = dataSnapshot.getValue(User.class);
+                    System.out.println(courseIns);
+                    System.out.println(i.getStringExtra("created_by"));
+                    if (!courseIns.getId().equals(i.getStringExtra("user_id"))) {
+                        courseEdit.setVisibility(View.GONE);
                     }
+                    if (!i.getStringExtra("type").equals("Student")) {
+
+                        EnrollBtn.setVisibility(View.GONE);
+
+                    } else {
+                        if (i.getStringExtra("students").contains(i.getStringExtra("user_id"))) {
+                            EnrollBtn.setVisibility(View.GONE);
+                        }
+                    }
+
+
+                    TextView insNameTv = findViewById(R.id.InsNameTv);
+                    TextView insEmailTv = findViewById(R.id.InsEmailTv);
+                    TextView InsPhoneTv = findViewById(R.id.InsPhoneTv);
+
+                    insNameTv.setText("Name : " + courseIns.getName());
+                    insEmailTv.setText("Email : " + courseIns.getEmail());
+                    InsPhoneTv.setText("Phone : " + courseIns.getPhonenumber());
+
+
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
-
-
-
-                TextView insNameTv=findViewById(R.id.InsNameTv);
-                TextView insEmailTv = findViewById(R.id.InsEmailTv);
-                TextView InsPhoneTv = findViewById(R.id.InsPhoneTv);
-
-                insNameTv.setText("Name : "+courseIns.getName());
-                insEmailTv.setText("Email : "+courseIns.getEmail());
-                InsPhoneTv.setText("Phone : "+courseIns.getPhonenumber());
 
             }
 
@@ -155,39 +162,36 @@ public class CourseActivity extends AppCompatActivity {
         });
 
 
-
-
-    //CourseEditBtn
+        //CourseEditBtn
         courseEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(CourseActivity.this,CourseUpdateActivity.class);
-                I.putExtra("current_user",i.getStringExtra("user_id"));
+                Intent I = new Intent(CourseActivity.this, CourseUpdateActivity.class);
+                I.putExtra("current_user", i.getStringExtra("user_id"));
                 I.putExtra("id", i.getStringExtra("id"));
                 I.putExtra("name", i.getStringExtra("name"));
-                I.putExtra("credit",i.getStringExtra("credit"));
-                I.putExtra("created_by",i.getStringExtra("created_by"));
-                I.putExtra("desc",i.getStringExtra("desc"));
-                I.putExtra("notice",i.getStringExtra("notice"));
-                I.putExtra("res_id",i.getStringExtra("res_id"));
-                I.putExtra("students",i.getStringExtra("students"));
+                I.putExtra("credit", i.getStringExtra("credit"));
+                I.putExtra("created_by", i.getStringExtra("created_by"));
+                I.putExtra("desc", i.getStringExtra("desc"));
+                I.putExtra("notice", i.getStringExtra("notice"));
+                System.out.println(i.getStringExtra("res_id"));
+                I.putExtra("resource_id", i.getStringExtra("res_id"));
+                I.putExtra("students", i.getStringExtra("students"));
                 startActivity(I);
+
+
             }
         });
-
-
-
-
 
 
 //getting course routine
         routineRef = FirebaseDatabase.getInstance().getReference().child("routine").child(i.getStringExtra("id"));
         routineRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                routine =snapshot.getValue(Routine.class);
-                if(routine!=null){
+                routine = snapshot.getValue(Routine.class);
+                if (routine != null) {
 
                     tv1 = findViewById(R.id.routineMWTv);
                     tv1.setText(routine.getMW());
@@ -207,7 +211,7 @@ public class CourseActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -216,52 +220,55 @@ public class CourseActivity extends AppCompatActivity {
 
         copoRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                CoPo copo = snapshot.getValue(CoPo.class);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
 
-                TextView cotv1 = findViewById(R.id.copo1);
-                TextView cotv2 = findViewById(R.id.copo2);
-                TextView cotv3 = findViewById(R.id.copo3);
-                TextView cotv4 = findViewById(R.id.copo4);
-                TextView cotv5 = findViewById(R.id.copo5);
-                TextView cotv6 = findViewById(R.id.copo6);
-                TextView potv1 = findViewById(R.id.copo7);
-                TextView potv2 = findViewById(R.id.copo8);
-                TextView potv3 = findViewById(R.id.copo9);
-                TextView potv4 = findViewById(R.id.copo10);
-                TextView potv5 = findViewById(R.id.copo11);
-                TextView potv6 = findViewById(R.id.copo12);
+                try {
 
-                //put co po on a grid view
-                cotv1.setText("Co1 : "+copo.getCo1());
-                cotv2.setText("Co2 : "+copo.getCo2());
-                cotv3.setText("Co3 : "+copo.getCo3());
-                cotv4.setText("Co4 : "+copo.getCo4());
-                cotv5.setText("Co5 : "+copo.getCo5());
-                cotv6.setText("Co6 : "+copo.getCo6());
-                potv1.setText("Po1 : "+copo.getPo1());
-                potv2.setText("Po2 : "+copo.getPo2());
-                potv3.setText("Po3 : "+copo.getPo3());
-                potv4.setText("Po4 : "+copo.getPo4());
-                potv5.setText("Po5 : "+copo.getPo5());
-                potv6.setText("Po6 : "+copo.getPo6());
+
+                    CoPo copo = snapshot.getValue(CoPo.class);
+
+
+                    TextView cotv1 = findViewById(R.id.copo1);
+                    TextView cotv2 = findViewById(R.id.copo2);
+                    TextView cotv3 = findViewById(R.id.copo3);
+                    TextView cotv4 = findViewById(R.id.copo4);
+                    TextView cotv5 = findViewById(R.id.copo5);
+                    TextView cotv6 = findViewById(R.id.copo6);
+                    TextView potv1 = findViewById(R.id.copo7);
+                    TextView potv2 = findViewById(R.id.copo8);
+                    TextView potv3 = findViewById(R.id.copo9);
+                    TextView potv4 = findViewById(R.id.copo10);
+                    TextView potv5 = findViewById(R.id.copo11);
+                    TextView potv6 = findViewById(R.id.copo12);
+
+                    //put co po on a grid view
+                    cotv1.setText("Co1 : " + copo.getCo1());
+                    cotv2.setText("Co2 : " + copo.getCo2());
+                    cotv3.setText("Co3 : " + copo.getCo3());
+                    cotv4.setText("Co4 : " + copo.getCo4());
+                    cotv5.setText("Co5 : " + copo.getCo5());
+                    cotv6.setText("Co6 : " + copo.getCo6());
+                    potv1.setText("Po1 : " + copo.getPo1());
+                    potv2.setText("Po2 : " + copo.getPo2());
+                    potv3.setText("Po3 : " + copo.getPo3());
+                    potv4.setText("Po4 : " + copo.getPo4());
+                    potv5.setText("Po5 : " + copo.getPo5());
+                    potv6.setText("Po6 : " + copo.getPo6());
+
+                } catch (Exception e) {
+
+                    System.out.println(e);
+                }
 
 
             }
 
             @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
-
-
-
-
-
-
 
 
     }
