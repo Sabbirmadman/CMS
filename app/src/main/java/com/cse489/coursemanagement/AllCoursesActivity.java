@@ -62,12 +62,6 @@ public class AllCoursesActivity extends AppCompatActivity {
                 System.out.println("Find"+searchInputValue);
 
 
-
-
-
-
-
-
                 DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference().child("course");
                 courseRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -103,8 +97,6 @@ public class AllCoursesActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
 

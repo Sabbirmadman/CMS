@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button logout;
     private Button createCourses;
+    private Button TakeExams;
 
     private TextView emailTV;
     private TextView nameTV;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logout = findViewById(R.id.logoutBtn);
+        TakeExams=findViewById(R.id.TakeExams);
 
 
         //list view shows my courses
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     emailTV.setText(Email);
-                    nameTV.setText(name);
+                    nameTV.setText("👨‍🎓 "+name);
                     phoneTV.setText(Phone);
                     typeTV.setText(type);
 
@@ -273,6 +275,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TakeExams.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent E = new Intent(MainActivity.this,ExamsActivity.class);
+                E.putExtra("type",type);
+                E.putExtra("currentUserId",currentUserId);
+                startActivity(E);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -302,7 +325,6 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                         }
-
 
                     }
 

@@ -133,7 +133,7 @@
             android:layout_margin="2dp"
             android:text="📚" />
         <Button
-            android:id="@+id/Notification"
+            android:id="@+id/TakeExams"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -141,7 +141,7 @@
             android:textSize="20dp"
             android:layout_margin="2dp"
             android:background="@color/white"
-            android:text="🔔" />
+            android:text="💯" />
 
     </LinearLayout>
 

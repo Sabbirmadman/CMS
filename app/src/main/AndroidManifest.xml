@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CMS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CourseUpdateActivity"></activity>
+        <activity android:name=".GiveExamsActivity"></activity>
+        <activity android:name=".CreateQuestions" />
+        <activity android:name=".ExamsActivity" />
+        <activity android:name=".CourseUpdateActivity" />
         <activity android:name=".AllCoursesActivity" />
         <activity android:name=".CourseActivity" />
         <activity android:name=".Create_course" />
