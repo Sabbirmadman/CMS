@@ -152,10 +152,8 @@ public class CourseActivity extends AppCompatActivity {
                     System.out.println(i.getStringExtra("created_by"));
                     if (!courseIns.getId().equals(i.getStringExtra("user_id"))) {
                         courseEdit.setVisibility(View.GONE);
-                        setALarmBtn.setVisibility(View.GONE);
                     }
                     if (!i.getStringExtra("type").equals("Student")) {
-
                         EnrollBtn.setVisibility(View.GONE);
 
                     } else {
