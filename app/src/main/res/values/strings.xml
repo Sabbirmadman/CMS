@@ -4,4 +4,16 @@
     <string name="navigation_drawer_open">Open navigation Drawer</string>
     <string name="navigation_drawer_close">Close navigation Drawer</string>
 
+
+    <string-array name="numbers">
+        <item>op1</item>
+        <item>op2</item>
+        <item>op3</item>
+        <item>op4</item>
+    </string-array>
+
+
+
+
+
 </resources>

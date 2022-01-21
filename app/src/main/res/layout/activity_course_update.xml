@@ -220,7 +220,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update Exam Schedule"
+                android:text="Update Exam Schedule(put time of the day like 12:50)"
                 android:backgroundTint="@color/fb"
                 android:textColor="@color/white"
                 android:background="@drawable/border"

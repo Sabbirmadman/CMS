@@ -220,12 +220,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/border"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/black"
-                    android:text="💯 Exam Schedule"
+                    android:text="🚨 Exam Schedule"
                     android:textColor="@color/white"
                     android:textSize="20dp" />
 
@@ -236,6 +237,11 @@
                     android:text="25th january,2020"
                     android:textColor="#FF0000"
                     android:textSize="20dp" />
+                <Button
+                    android:id="@+id/setAlarmBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⏰ Set alarm"/>
 
 
             </LinearLayout>

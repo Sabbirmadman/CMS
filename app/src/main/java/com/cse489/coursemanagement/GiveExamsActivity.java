@@ -122,8 +122,9 @@ public class GiveExamsActivity extends AppCompatActivity {
                             if (Answer.equals("")) {
                                 SelectedAns.setText("Please Select answer");
                             } else {
-
+                                System.out.println(QunAnswer+" "+Answer);
                                 if (QunAnswer.equals(Answer)) {
+                                    Answer="";
                                     score++;
                                 }
 
@@ -134,6 +135,7 @@ public class GiveExamsActivity extends AppCompatActivity {
                                     option2Btn.setText(questions.get(index).getOp2());
                                     option3Btn.setText(questions.get(index).getOp3());
                                     option4Btn.setText(questions.get(index).getOp4());
+                                    QunAnswer = questions.get(index).getSol();
 
 
                                     System.out.println(questions.get(index).getQuestion());

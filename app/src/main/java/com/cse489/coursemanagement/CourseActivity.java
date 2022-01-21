@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView descTv;
     private TextView noticeBord;
 
+
     private Button courseEdit, EnrollBtn;
 
 
@@ -46,13 +48,14 @@ public class CourseActivity extends AppCompatActivity {
     private User courseIns;
     private Routine routine;
 
+    private Button setALarmBtn;
 
-    private TextView tv1;
+    private TextView tv1, ExamsDateTv;
     private TextView tv2;
     private TextView tv3;
     private TextView tv4;
 
-    private String user,type;
+    private String user, type;
 
 
     @Override
@@ -71,6 +74,8 @@ public class CourseActivity extends AppCompatActivity {
         courseEdit = findViewById(R.id.CourseEditTv);
         noticeBord = findViewById(R.id.noticeBordTv);
         EnrollBtn = findViewById(R.id.EntollBtn);
+        ExamsDateTv = findViewById(R.id.ExamsDateTv);
+        setALarmBtn = findViewById(R.id.setAlarmBtn);
 
         courseIdTV.setText(i.getStringExtra("id"));
         courseNameTv.setText(i.getStringExtra("name") + " (" + i.getStringExtra("credit") + ")");
@@ -78,14 +83,34 @@ public class CourseActivity extends AppCompatActivity {
         noticeBord.setText(i.getStringExtra("notice"));
 
 
+        ExamsDateTv.setText(i.getStringExtra("examTime"));
 
 
+        setALarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(i.getStringExtra("examTime"))) {
 
 
+                    String[] timeDate = i.getStringExtra("examTime").split(":");
+
+                    int hour = Integer.parseInt(timeDate[0]);
+                    int minute = Integer.parseInt(timeDate[1]);
 
 
+                    Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                    intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
+                    intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
+                    intent.putExtra(AlarmClock.EXTRA_MESSAGE, i.getStringExtra("name") + " Exam alarm ");
 
 
+                    if (hour <= 24 && minute <= 60 && !TextUtils.isEmpty(i.getStringExtra("examTime"))) {
+                        startActivity(intent);
+                    }
+
+                }
+            }
+        });
 
 
 //Enroll
@@ -101,7 +126,7 @@ public class CourseActivity extends AppCompatActivity {
                 courseInfo.put("notice", i.getStringExtra("notice"));
 
                 courseInfo.put("resource_id", i.getStringExtra("res_id"));
-                courseInfo.put("students", i.getStringExtra("students")+","+i.getStringExtra("user_id"));
+                courseInfo.put("students", i.getStringExtra("students") + "," + i.getStringExtra("user_id"));
 
                 courseInfoRef.updateChildren(courseInfo).addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -127,6 +152,7 @@ public class CourseActivity extends AppCompatActivity {
                     System.out.println(i.getStringExtra("created_by"));
                     if (!courseIns.getId().equals(i.getStringExtra("user_id"))) {
                         courseEdit.setVisibility(View.GONE);
+                        setALarmBtn.setVisibility(View.GONE);
                     }
                     if (!i.getStringExtra("type").equals("Student")) {
 
@@ -174,6 +200,7 @@ public class CourseActivity extends AppCompatActivity {
                 I.putExtra("created_by", i.getStringExtra("created_by"));
                 I.putExtra("desc", i.getStringExtra("desc"));
                 I.putExtra("notice", i.getStringExtra("notice"));
+                I.putExtra("examTime", i.getStringExtra("examTime"));
                 System.out.println(i.getStringExtra("res_id"));
                 I.putExtra("resource_id", i.getStringExtra("res_id"));
                 I.putExtra("students", i.getStringExtra("students"));

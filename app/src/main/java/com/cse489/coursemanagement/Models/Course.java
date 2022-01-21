@@ -8,23 +8,31 @@ public class Course {
     private String course_Credit;
     private String created_by;
     private String resource_id;
+    private String examTime;
     private String desc;
     private String notice;
     private String students;
     public Course() {
     }
 
-
-
-    public Course(String course_id, String course_Name, String course_Credit, String created_by, String desc, String resource_id,String students,String notice) {
+    public Course(String course_id, String course_Name, String course_Credit, String created_by, String resource_id, String examTime, String desc, String notice, String students) {
         this.course_id = course_id;
         this.course_Name = course_Name;
         this.course_Credit = course_Credit;
         this.created_by = created_by;
         this.resource_id = resource_id;
+        this.examTime = examTime;
         this.desc = desc;
-        this.students=students;
-        this.notice=notice;
+        this.notice = notice;
+        this.students = students;
+    }
+
+    public String getExamTime() {
+        return examTime;
+    }
+
+    public void setExamTime(String examTime) {
+        this.examTime = examTime;
     }
 
     public String getNotice() {

@@ -87,6 +87,12 @@ public class ExamsActivity extends AppCompatActivity {
                 Course selectedCourse = courses.get(iter);
                 if(type.equals("Teacher")){
                     Intent i = new Intent(ExamsActivity.this,CreateQuestions.class);
+                    i.putExtra("user_id", currentUserId);
+                    i.putExtra("id", selectedCourse.getCourse_id());
+                    i.putExtra("name", selectedCourse.getCourse_Name());
+                    i.putExtra("credit", selectedCourse.getCourse_Credit());
+                    i.putExtra("created_by", selectedCourse.getCreated_by());
+                    i.putExtra("students", selectedCourse.getStudents());
                     startActivity(i);
                 }else{
                     Intent i = new Intent(ExamsActivity.this,GiveExamsActivity.class);
